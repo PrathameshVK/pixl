@@ -97,7 +97,10 @@ const Canvas = ({
                     fill={pixel}
                     isOddRow={isOddRow}
                     size={`${pixelSize}px`}
-                    onClick={() => handleColourPicker(pixel)}
+                    onClick={() =>
+                      currentTool === "picker" &&
+                      handleColourPicker(pixel !== 0 ? pixel : "black")
+                    }
                     onMouseOver={() =>
                       onMouseOver(
                         pixel,
