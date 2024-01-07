@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 
 const CanvasContainer = styled.div`
@@ -52,8 +52,6 @@ const Canvas = ({
 }) => {
   const [isMouseDown, setIsMouseDown] = useState(false);
 
-  const pixelRef = useRef();
-
   const onMouseOver = (pixel, pixelRowIndex, pixelColumnIndex, color) => {
     if (isMouseDown) {
       if (currentTool === "pencil" && pixel !== currentColor) {
@@ -95,7 +93,6 @@ const Canvas = ({
               {pixelRow.map((pixel, columnIndex) => {
                 return (
                   <Pixel
-                    ref={pixelRef}
                     key={columnIndex}
                     fill={pixel}
                     isOddRow={isOddRow}
