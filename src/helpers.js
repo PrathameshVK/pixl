@@ -13,34 +13,3 @@ export const debounce = (func, wait) => {
     }, wait);
   };
 };
-
-// Recursive flood fill algorithm
-export const floodFill = (
-  newPixels,
-  pixels,
-  row,
-  col,
-  targetColor,
-  fillColor
-) => {
-  // Check boundaries and color equality
-  if (
-    row < 0 ||
-    row >= pixels?.length ||
-    col < 0 ||
-    col >= pixels?.length ||
-    newPixels[row][col] !== targetColor ||
-    newPixels[row][col] === fillColor
-  ) {
-    return;
-  }
-
-  // Fill the current pixel
-  pixels[row][col] = fillColor;
-
-  // Recursive calls for neighboring pixels
-  floodFill(pixels, row - 1, col, targetColor, fillColor); // Top
-  floodFill(pixels, row + 1, col, targetColor, fillColor); // Bottom
-  floodFill(pixels, row, col - 1, targetColor, fillColor); // Left
-  floodFill(pixels, row, col + 1, targetColor, fillColor); // Right
-};

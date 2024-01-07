@@ -8,7 +8,7 @@ import styled from "styled-components";
 
 import logo from "../assets/logo.webp";
 import { Text } from "../common/Headings";
-import { debounce, floodFill } from "../helpers";
+import { debounce } from "../helpers";
 import Canvas from "./Canvas";
 import Modal from "./Modal";
 import Tools from "./Tools";
@@ -257,13 +257,36 @@ const Layout = () => {
     const newPixels = [...pixels]; // Create a copy to avoid directly modifying state
     floodFill(
       newPixels,
-      pixels,
       pixelRowIndex,
       pixelColIndex,
       targetColor,
       currentColor
     ); // Replace target color with new color
     setPixels(newPixels);
+  };
+
+  // Recursive flood fill algorithm
+  const floodFill = (newPixels, row, col, targetColor, fillColor) => {
+    // Check boundaries and color equality
+    if (
+      row < 0 ||
+      row >= pixels?.length ||
+      col < 0 ||
+      col >= pixels?.length ||
+      newPixels[row][col] !== targetColor ||
+      newPixels[row][col] === fillColor
+    ) {
+      return;
+    }
+
+    // Fill the current pixel
+    pixels[row][col] = fillColor;
+
+    // Recursive calls for neighboring pixels
+    floodFill(pixels, row - 1, col, targetColor, fillColor); // Top
+    floodFill(pixels, row + 1, col, targetColor, fillColor); // Bottom
+    floodFill(pixels, row, col - 1, targetColor, fillColor); // Left
+    floodFill(pixels, row, col + 1, targetColor, fillColor); // Right
   };
 
   const toggleNewFileModal = () => {
