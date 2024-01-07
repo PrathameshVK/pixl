@@ -97,7 +97,6 @@ const PageLayout = ({ children }) => {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    console.log(window.location.pathname);
     if (window.location.pathname === "/draw") {
       navigate("/");
     }

@@ -151,7 +151,6 @@ const Draw = () => {
       .getElementById("canvas-container")
       .getBoundingClientRect();
     const pixelSize = canvasWidth.width / length;
-    console.log(pixelSize);
     setPixelSize(pixelSize);
   };
 
