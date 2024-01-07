@@ -1,54 +1,16 @@
 import html2canvas from "html2canvas";
 import { useEffect, useRef, useState } from "react";
-import { FaCheck, FaGithub, FaLinkedinIn, FaQuestion } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa6";
 import { FiX } from "react-icons/fi";
-import { SiGmail } from "react-icons/si";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import logo from "../assets/logo.webp";
 import { Text } from "../common/Headings";
+import { LayoutBlock } from "../common/styles";
+import Canvas from "../components/Canvas";
+import Modal from "../components/Modal";
+import PageLayout from "../components/PageLayout";
+import Tools from "../components/Tools";
 import { debounce } from "../helpers";
-import Canvas from "./Canvas";
-import Modal from "./Modal";
-import Tools from "./Tools";
-
-const LayoutContainer = styled.div`
-  height: 100dvh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-`;
-
-const Header = styled.div`
-  width: 100%;
-  padding: 1.5rem;
-`;
-
-const Logo = styled.img`
-  width: 8rem;
-  height: auto;
-  cursor: pointer;
-`;
-
-const Content = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-`;
-
-const LayoutBlock = styled.div`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height || "100%"};
-  display: flex;
-  align-items: center;
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
 
 const NewFileInfo = styled.div`
   display: flex;
@@ -137,28 +99,6 @@ const CreateButton = styled.button`
   font-weight: bold;
 `;
 
-const AboutMe = styled.div`
-  padding: 0.5rem;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const SocialIcons = styled.div`
-  display: flex;
-  gap: 1rem;
-  a {
-    text-decoration: none;
-    color: black;
-  }
-`;
-
 const BgCheck = styled.div`
   display: flex;
   gap: 1rem;
@@ -175,7 +115,7 @@ const CheckBox = styled.div`
   background-color: ${(props) => (props.checked ? "black" : "white")};
 `;
 
-const Layout = () => {
+const Draw = () => {
   const [pixels, setPixels] = useState([]);
   const [pixelSize, setPixelSize] = useState(16);
   const [currentColor, setCurrentColor] = useState("#000000");
@@ -186,11 +126,8 @@ const Layout = () => {
   const [hasBgColor, setHasBgColor] = useState(false);
 
   const [showNewFileModal, setShowNewFileModal] = useState(false);
-  const [showAboutModal, setShowAboutModal] = useState(false);
 
   const canvasRef = useRef();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setPixels(generateNewPixels(10));
@@ -214,7 +151,6 @@ const Layout = () => {
       .getElementById("canvas-container")
       .getBoundingClientRect();
     const pixelSize = canvasWidth.width / length;
-    console.log(pixelSize);
     setPixelSize(pixelSize);
   };
 
@@ -301,10 +237,6 @@ const Layout = () => {
     toggleNewFileModal();
   };
 
-  const toggleAboutModal = () => {
-    setShowAboutModal(!showAboutModal);
-  };
-
   const handleNewBgColor = (value) => {
     debouncedHandleColorChange(setNewBgColor, value);
   };
@@ -342,7 +274,7 @@ const Layout = () => {
   };
 
   return (
-    <LayoutContainer>
+    <PageLayout>
       {showNewFileModal && (
         <Modal height="fit-content" width="fit-content">
           <ModalHeader>
@@ -378,77 +310,33 @@ const Layout = () => {
           </NewFileInfo>
         </Modal>
       )}
-      {showAboutModal && (
-        <Modal height="fit-content" width="fit-content">
-          <ModalHeader>
-            <Text fontSize="1.25rem" bold>
-              About
-            </Text>
-            <FiX size="1.25rem" onClick={toggleAboutModal} cursor="pointer" />
-          </ModalHeader>
-          <NewFileInfo>
-            <Text>Made with ❤️ by Prathamesh Kulkarni</Text>
-            <SocialIcons>
-              <a
-                href="https://github.com/PrathameshVK"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaGithub size="1.5rem" cursor="pointer" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/prathamesh-kulkarni-42985317a/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaLinkedinIn size="1.5rem" cursor="pointer" />
-              </a>
-              <a
-                href="mailto:prathameshvk50@gmail.com"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <SiGmail size="1.5rem" cursor="pointer" />
-              </a>
-            </SocialIcons>
-          </NewFileInfo>
-        </Modal>
-      )}
-      <Header>
-        <Logo src={logo} alt="logo" onClick={() => navigate("/")} />
-      </Header>
-      <Content>
-        <LayoutBlock width="50%">
-          <Canvas
-            currentColor={currentColor}
-            currentTool={currentTool}
-            pixels={pixels}
-            pixelSize={pixelSize}
-            handlePixelFill={handlePixelFill}
-            handleBucketFill={handleBucketFill}
-            handleColourPicker={handleColourPicker}
-            canvasRef={canvasRef}
-          />
-        </LayoutBlock>
-        <LayoutBlock width="20%">
-          <Tools
-            currentColor={currentColor}
-            currentTool={currentTool}
-            handleCurrentColor={handleCurrentColor}
-            handleCurrentTool={handleCurrentTool}
-            handleTrash={handleTrash}
-            handleBucketFill={handleBucketFill}
-            toggleNewFileModal={toggleNewFileModal}
-            handleDownload={handleDownload}
-            canvasRef={canvasRef}
-          />
-        </LayoutBlock>
-      </Content>
-      <AboutMe onClick={toggleAboutModal}>
-        <FaQuestion size="1.5rem" color="white" />
-      </AboutMe>
-    </LayoutContainer>
+      <LayoutBlock width="50%">
+        <Canvas
+          currentColor={currentColor}
+          currentTool={currentTool}
+          pixels={pixels}
+          pixelSize={pixelSize}
+          handlePixelFill={handlePixelFill}
+          handleBucketFill={handleBucketFill}
+          handleColourPicker={handleColourPicker}
+          canvasRef={canvasRef}
+        />
+      </LayoutBlock>
+      <LayoutBlock width="20%">
+        <Tools
+          currentColor={currentColor}
+          currentTool={currentTool}
+          handleCurrentColor={handleCurrentColor}
+          handleCurrentTool={handleCurrentTool}
+          handleTrash={handleTrash}
+          handleBucketFill={handleBucketFill}
+          toggleNewFileModal={toggleNewFileModal}
+          handleDownload={handleDownload}
+          canvasRef={canvasRef}
+        />
+      </LayoutBlock>
+    </PageLayout>
   );
 };
 
-export default Layout;
+export default Draw;

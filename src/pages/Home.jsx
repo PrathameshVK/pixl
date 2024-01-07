@@ -1,55 +1,15 @@
-import { useState } from "react";
-import { FaGithub, FaLinkedinIn, FaQuestion } from "react-icons/fa6";
-import { FiX } from "react-icons/fi";
-import { SiGmail } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Text } from "../common/Headings";
 
 import hero from "../assets/hero.webp";
-import logo from "../assets/logo.webp";
-import Modal from "../components/Modal";
-
-const Container = styled.div`
-  height: 100dvh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-`;
-
-const Header = styled.div`
-  width: 100%;
-  padding: 1.5rem;
-`;
-
-const Logo = styled.img`
-  width: 8rem;
-  height: auto;
-`;
+import { Text } from "../common/Headings";
+import { LayoutBlock } from "../common/styles";
+import PageLayout from "../components/PageLayout";
 
 const HeroImage = styled.img`
   width: 80%;
   height: auto;
   aspect-ratio: 1;
-`;
-
-const Content = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-`;
-
-const LayoutBlock = styled.div`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height || "100%"};
-  display: flex;
-  align-items: center;
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
 `;
 
 const IntroTextBlock = styled.div`
@@ -72,129 +32,40 @@ const StartCTA = styled.button`
   font-weight: 700;
   transition: 0.2s;
   &:hover {
-    /* background-color: red; */
-    /* color: white; */
     -webkit-box-shadow: -6px 6px 0px 0px rgba(0, 0, 0, 1);
     -moz-box-shadow: -6px 6px 0px 1px rgba(0, 0, 0, 1);
     box-shadow: -6px 6px 0px 1px rgba(0, 0, 0, 1);
   }
 `;
 
-const AboutMe = styled.div`
-  padding: 0.5rem;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const ModalHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  border-bottom: 1px solid black;
-`;
-
-const SocialIcons = styled.div`
-  display: flex;
-  gap: 1rem;
-  a {
-    text-decoration: none;
-    color: black;
-  }
-`;
-
-const NewFileInfo = styled.div`
-  display: flex;
-  width: 20rem;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-`;
-
 const Homepage = () => {
-  const [showAboutModal, setShowAboutModal] = useState(false);
-
   const navigate = useNavigate();
 
   const handleStart = () => {
     navigate("/draw");
   };
 
-  const toggleAboutModal = () => {
-    setShowAboutModal(!showAboutModal);
-  };
-
   return (
-    <Container>
-      {showAboutModal && (
-        <Modal height="fit-content" width="fit-content">
-          <ModalHeader>
-            <Text fontSize="1.25rem" bold>
-              About
+    <PageLayout>
+      <LayoutBlock width="50%">
+        <IntroTextBlock>
+          <Text fontSize="4rem" bold>
+            P
+            <Text fontSize="4rem" bold color="red">
+              i
             </Text>
-            <FiX size="1.25rem" onClick={toggleAboutModal} cursor="pointer" />
-          </ModalHeader>
-          <NewFileInfo>
-            <Text>Made with ❤️ by Prathamesh Kulkarni</Text>
-            <SocialIcons>
-              <a
-                href="https://github.com/PrathameshVK"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaGithub size="1.5rem" cursor="pointer" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/prathamesh-kulkarni-42985317a/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaLinkedinIn size="1.5rem" cursor="pointer" />
-              </a>
-              <a
-                href="mailto:prathameshvk50@gmail.com"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <SiGmail size="1.5rem" cursor="pointer" />
-              </a>
-            </SocialIcons>
-          </NewFileInfo>
-        </Modal>
-      )}
-      <Header>
-        <Logo src={logo} alt="logo" />
-      </Header>
-      <Content>
-        <LayoutBlock width="50%">
-          <IntroTextBlock>
-            <Text fontSize="4rem" bold>
-              P
-              <Text fontSize="4rem" bold color="red">
-                i
-              </Text>
-              xel Art Made Simple
-            </Text>
-            <Text fontSize="1.5rem" color="#61677A">
-              So easy, even your grandma could use it
-            </Text>
-            <StartCTA onClick={handleStart}>Get Pixelated</StartCTA>
-          </IntroTextBlock>
-        </LayoutBlock>
-        <LayoutBlock width="40%">
-          <HeroImage src={hero} alt="hero-img" />
-        </LayoutBlock>
-      </Content>
-      <AboutMe onClick={toggleAboutModal}>
-        <FaQuestion size="1.5rem" color="white" />
-      </AboutMe>
-    </Container>
+            xel Art Made Simple
+          </Text>
+          <Text fontSize="1.5rem" color="#61677A">
+            So easy, even your grandma could use it
+          </Text>
+          <StartCTA onClick={handleStart}>Get Pixelated</StartCTA>
+        </IntroTextBlock>
+      </LayoutBlock>
+      <LayoutBlock width="40%">
+        <HeroImage src={hero} alt="hero-img" />
+      </LayoutBlock>
+    </PageLayout>
   );
 };
 
